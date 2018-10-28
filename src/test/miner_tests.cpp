@@ -68,7 +68,7 @@ CBlockIndex CreateBlockIndex(int nHeight)
 bool TestSequenceLocks(const CTransaction &tx, int flags)
 {
     LOCK(mempool.cs);
-    return CheckSequenceLocks(tx, flags);
+    return CheckSequenceLocks(mempool, tx, flags);
 }
 
 // Test suite for ancestor feerate transaction selection.
@@ -364,8 +364,8 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 
     // subsidy changing
     int nHeight = chainActive.Height();
-    // Create an actual 209999-long block chain (without valid blocks).
-    while (chainActive.Tip()->nHeight < 209999) {
+    // Create an actual 304999-long block chain (without valid blocks).
+    while (chainActive.Tip()->nHeight < 304999) {
         CBlockIndex* prev = chainActive.Tip();
         CBlockIndex* next = new CBlockIndex();
         next->phashBlock = new uint256(GetRandHash());
@@ -377,8 +377,8 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     }
     BOOST_CHECK(pblocktemplate = BlockAssembler(chainparams).CreateNewBlock(scriptPubKey));
     delete pblocktemplate;
-    // Extend to a 210000-long block chain.
-    while (chainActive.Tip()->nHeight < 210000) {
+    // Extend to a 305000-long block chain.
+    while (chainActive.Tip()->nHeight < 305000) {
         CBlockIndex* prev = chainActive.Tip();
         CBlockIndex* next = new CBlockIndex();
         next->phashBlock = new uint256(GetRandHash());

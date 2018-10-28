@@ -2,8 +2,8 @@ dnl require autoconf 2.60 (AS_ECHO/AS_ECHO_N)
 AC_PREREQ([2.60])
 define(_CLIENT_VERSION_MAJOR, 0)
 define(_CLIENT_VERSION_MINOR, 13)
-define(_CLIENT_VERSION_REVISION, 6)
-define(_CLIENT_VERSION_BUILD, 6)
+define(_CLIENT_VERSION_REVISION, 7)
+define(_CLIENT_VERSION_BUILD, 1)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2018)
 define(_COPYRIGHT_HOLDERS,[The %s developers])
@@ -92,11 +92,7 @@ AC_PATH_TOOL(OBJCOPY, objcopy)
 AC_ARG_VAR(PYTHONPATH, Augments the default search path for python module files)
 
 # Enable wallet
-AC_ARG_ENABLE([wallet],
-  [AS_HELP_STRING([--disable-wallet],
-  [disable wallet (enabled by default)])],
-  [enable_wallet=$enableval],
-  [enable_wallet=yes])
+enable_wallet=yes
 
 AC_ARG_WITH([miniupnpc],
   [AS_HELP_STRING([--with-miniupnpc],
@@ -226,6 +222,7 @@ if test "x$CXXFLAGS_overridden" = "xno"; then
   AX_CHECK_COMPILE_FLAG([-Wextra],[CXXFLAGS="$CXXFLAGS -Wextra"],,[[$CXXFLAG_WERROR]])
   AX_CHECK_COMPILE_FLAG([-Wformat],[CXXFLAGS="$CXXFLAGS -Wformat"],,[[$CXXFLAG_WERROR]])
   AX_CHECK_COMPILE_FLAG([-Wformat-security],[CXXFLAGS="$CXXFLAGS -Wformat-security"],,[[$CXXFLAG_WERROR]])
+  AX_CHECK_COMPILE_FLAG([-Wno-implicit-fallthrough],[CXXFLAGS="$CXXFLAGS -Wno-implicit-fallthrough"],,[[$CXXFLAG_WERROR]])
 
   ## Some compilers (gcc) ignore unknown -Wno-* options, but warn about all
   ## unknown options if any other warning is produced. Test the -Wfoo case, and
@@ -1152,7 +1149,7 @@ if test x$need_bundled_univalue = xyes; then
 fi
 
 AX_SUBDIRS_CONFIGURE([src/secp256k1], [[--disable-shared], [--with-pic], [--with-bignum=no], [--enable-module-recovery], [--enable-experimental], [--enable-module-ecdh]])
-AX_SUBDIRS_CONFIGURE([src/tor], [[--disable-unittests], [--disable-system-torrc], [--disable-systemd], [--disable-lzma], [--disable-asciidoc], [--with-openssl-dir=$($PKG_CONFIG --variable=libdir openssl)], [CFLAGS=$($PKG_CONFIG --cflags openssl) -O2]])
+AX_SUBDIRS_CONFIGURE([src/tor], [[--disable-unittests], [--disable-system-torrc], [--disable-systemd], [--disable-lzma], [--disable-zstd], [--disable-asciidoc], [--with-openssl-dir=$($PKG_CONFIG --variable=libdir openssl)], [CFLAGS=$($PKG_CONFIG --cflags openssl) -O2]])
 
 
 AC_OUTPUT
