@@ -196,6 +196,9 @@ extern UniValue getaddressdeltas(const UniValue& params, bool fHelp);
 extern UniValue getaddresstxids(const UniValue& params, bool fHelp);
 extern UniValue getaddressbalance(const UniValue& params, bool fHelp);
 
+extern UniValue getblockhashes(const UniValue& params, bool fHelp);
+extern UniValue getblockdeltas(const UniValue& params, bool fHelp);
+extern UniValue getspentinfo(const UniValue& params, bool fHelp);
 extern UniValue getpoolinfo(const UniValue& params, bool fHelp);
 extern UniValue spork(const UniValue& params, bool fHelp);
 extern UniValue znode(const UniValue& params, bool fHelp);

@@ -486,6 +486,8 @@ void CTxMemPool::removeUnchecked(txiter it) {
     mapTx.erase(it);
     nTransactionsUpdated++;
     minerPolicyEstimator->removeTx(hash);
+    removeAddressIndex(hash);
+    removeSpentIndex(hash);
     LogPrintf("removeUnchecked ->OK\n");
 }
 

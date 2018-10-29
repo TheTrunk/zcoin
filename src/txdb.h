@@ -21,7 +21,17 @@
 class CBlockIndex;
 class CCoinsViewDBCursor;
 class uint256;
-
+struct CAddressUnspentKey;
+struct CAddressUnspentValue;
+struct CAddressIndexKey;
+struct CAddressIndexIteratorKey;
+struct CAddressIndexIteratorHeightKey;
+struct CTimestampIndexKey;
+struct CTimestampIndexIteratorKey;
+struct CTimestampBlockIndexKey;
+struct CTimestampBlockIndexValue;
+struct CSpentIndexKey;
+struct CSpentIndexValue;
 //! -dbcache default (MiB)
 static const int64_t nDefaultDbCache = 300;
 //! max. -dbcache (MiB)
@@ -103,7 +113,7 @@ private:
 class CBlockTreeDB : public CDBWrapper
 {
 public:
-    CBlockTreeDB(size_t nCacheSize, bool fMemory = false, bool fWipe = false);
+    CBlockTreeDB(size_t nCacheSize, bool fMemory = false, bool fWipe = false, bool compression = true, int maxOpenFiles = 1000);
 private:
     CBlockTreeDB(const CBlockTreeDB&);
     void operator=(const CBlockTreeDB&);
@@ -128,10 +138,13 @@ public:
 
     bool WriteTimestampIndex(const CTimestampIndexKey &timestampIndex);
     bool ReadTimestampIndex(const unsigned int &high, const unsigned int &low, std::vector<uint256> &vect);
+    bool WriteTimestampBlockIndex(const CTimestampBlockIndexKey &blockhashIndex, const CTimestampBlockIndexValue &logicalts);
+    bool ReadTimestampBlockIndex(const uint256 &hash, unsigned int &logicalTS);
     bool WriteFlag(const std::string &name, bool fValue);
     bool ReadFlag(const std::string &name, bool &fValue);
     bool LoadBlockIndexGuts(boost::function<CBlockIndex*(const uint256&)> insertBlockIndex);
 	int GetBlockIndexVersion();
+    bool blockOnchainActive(const uint256 &hash);
 };
 
 #endif // BITCOIN_TXDB_H

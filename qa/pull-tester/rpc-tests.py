@@ -129,6 +129,9 @@ testScripts = [
     'signrawtransactions.py',
     'nodehandling.py',
     'reindex.py',
+    'addressindex.py'
+    'timestampindex.py'
+    'spentindex.py'
     'decodescript.py',
     'blockchain.py',
     'disablewallet.py',
